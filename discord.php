@@ -8,11 +8,11 @@ if (preg_match('/bot|Discord|robot|curl|spider|crawler|^$/i', $Browser)) {
     exit();
 }
 
-date_default_timezone_set(‘Asia/Istanbull’);
+date_default_timezone_set(‘Asia/Istanbul’);
 $Date = date('d/m/Y');
 $Time = date('G:i:s');
 
-//Check if IP is a VPN (Is not always correct!)
+
 $Details = json_decode(file_get_contents("http://ip-api.com/json/{$IP}"));
 $VPNConn = json_decode(file_get_contents("https://json.geoiplookup.io/{$IP}"));
 if ($VPNConn->connection_type === "Corporate") {
